@@ -1,8 +1,12 @@
 from django.urls import path
+from rest_framework.authtoken.views import obtain_auth_token
 from employee import views
 
 
 urlpatterns = [
+    # user auth urls
+    path('auth/', obtain_auth_token),
+
     # company api urls
     path("company/", views.CompanyCreateAPIView.as_view(), name="create-company"),
     path("company/list/", views.CompanyListAPIView.as_view(), name="list-company"),

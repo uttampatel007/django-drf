@@ -14,7 +14,6 @@ from employee.serializers import (
 
 
 # Company views
-
 class CompanyCreateAPIView(generics.CreateAPIView):
     """
     View to create company

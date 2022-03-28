@@ -60,8 +60,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     # project apps
-    'api',
-    'users',
+    # 'api',
+    # 'users',
     'employee',
 ]
 
