@@ -1,0 +1,2 @@
+- database can be populated by creating new management command
+- Above way also help populating db in production

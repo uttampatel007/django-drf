@@ -1,0 +1,28 @@
+# version: "3.9"
+   
+# services:
+#   db:
+#     image: postgres
+#     volumes:
+#       - $HOME/docker/volumes/postgres:/var/lib/postgresql/data
+#     environment:
+#       - POSTGRES_NAME=employee_data
+#       - POSTGRES_USER=docker
+#       - POSTGRES_PASSWORD=docker
+#     ports:
+#       - '5432:5432'
+#   web:
+#     build: .
+#     command: python manage.py runserver 0.0.0.0:8000
+#     volumes:
+#       - .:/code
+#     ports:
+#       - "8000:8000"
+#     environment:
+#       - POSTGRES_NAME=employee_data
+#       - POSTGRES_USER=docker
+#       - POSTGRES_PASSWORD=docker
+#     depends_on:
+#       - db
+
+# docker run --rm --name pg-docker -e POSTGRES_PASSWORD=docker -d -p 5432:5432 -v $HOME/docker/volumes/postgres:/var/lib/postgresql/data postgres
