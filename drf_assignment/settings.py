@@ -9,11 +9,21 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
+import environ
+import os
 
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# loading environment variables
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False)
+)
+
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
@@ -21,10 +31,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-&j($59pp7$)0x@(w=zygi3_vl9c6mr-8&6s-5%#a%6l)8$7i@z'
 
-# SECURITY WARNING: don't run with debug turned on in production!
+
+# Getting project environment 
+PROJECT_ENV = env("PROJECT_ENV")
+
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
+
+if PROJECT_ENV != "dev":
+    # if project env is not development then turn off debug
+    DEBUG = False
+    ALLOWED_HOSTS = [env("PROJECT_INSTANCE_IP")]
 
 
 # Application definition
@@ -83,6 +101,8 @@ WSGI_APPLICATION = 'drf_assignment.wsgi.application'
 
 
 # Postgres database setup
+
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -93,6 +113,18 @@ DATABASES = {
         'PORT': '5432',
     }
 }
+
+if PROJECT_ENV != "dev":
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'employee_data',
+            'USER': 'docker',
+            'PASSWORD': 'docker',
+            'HOST': 'db',
+            'PORT': '5432',
+        }
+    }
 
 
 # Elastic search dsl
