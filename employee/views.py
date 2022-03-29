@@ -113,7 +113,6 @@ class EmployeeListAPIView(generics.ListAPIView):
         company = self.request.query_params.get('company')
         if company is not None:
             queryset = Employee.objects.filter(company__name__contains=company)
-            print(queryset)
             return queryset
         
         queryset = Employee.objects.all()
