@@ -12,7 +12,7 @@ urlpatterns = [
     path("company/list/", views.CompanyListAPIView.as_view(), name="list-company"),
     path("company/<int:pk>/", views.CompanyDetailAPIView.as_view(), name="get-company"),
     path("company/<int:pk>/update/", views.CompanyUpdateAPIView.as_view(), name="update-company"),
-    path("company/<int:pk>/delete/", views.CompanyCreateAPIView.as_view(), name="delete-company"),
+    path("company/<int:pk>/delete/", views.CompanyDeleteAPIView.as_view(), name="delete-company"),
 
     # employee api urls
     path("employee/", views.EmployeeCreateAPIView.as_view(), name="create-employee"),

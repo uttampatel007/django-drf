@@ -1,4 +1,6 @@
+from urllib import response
 from rest_framework import generics
+from rest_framework.response import Response
 from django.contrib.postgres.search import (
     SearchQuery,
     SearchVector,
@@ -20,6 +22,14 @@ class CompanyCreateAPIView(generics.CreateAPIView):
     """
     queryset = Company.objects.all()
     serializer_class = CompanySerializer
+
+    def create(self, request, *args, **kwargs):
+        response = super().create(request, *args, **kwargs)
+        return Response({
+            'status': 200,
+            'message': 'Company created successfully!',
+            'data': response.data
+        })
     
 
 class CompanyListAPIView(generics.ListAPIView):
@@ -46,6 +56,13 @@ class CompanyUpdateAPIView(generics.UpdateAPIView):
     queryset = Company.objects.all()
     serializer_class = CompanySerializer
 
+    def update(self, request, *args, **kwargs):
+        response = super().update(request, *args, **kwargs)
+        return Response({
+            'status': 200,
+            'message': 'Company updated successfully!',
+            'data': response.data
+        })
 
 class CompanyDeleteAPIView(generics.DestroyAPIView):
     """
@@ -53,10 +70,17 @@ class CompanyDeleteAPIView(generics.DestroyAPIView):
     """
     queryset = Company.objects.all()
     serializer_class = CompanySerializer
-    
+
+    def destroy(self, request, *args, **kwargs):
+        response = super().destroy(request, *args, **kwargs)    
+        return Response({
+            'status': 200,
+            'message': 'Company deleted successfully!',
+            'data': response.data
+        })
+
 
 # Employee views
-
 class EmployeeCreateAPIView(generics.CreateAPIView):
     """
     View to create employee
@@ -64,6 +88,14 @@ class EmployeeCreateAPIView(generics.CreateAPIView):
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
 
+    def create(self, request, *args, **kwargs):
+        response = super().create(request, *args, **kwargs)
+        return Response({
+            'status': 200,
+            'message': 'Employee created successfully!',
+            'data': response.data
+        })
+        
 
 class EmployeeListAPIView(generics.ListAPIView):
     """
@@ -99,11 +131,11 @@ class EmployeeFullTextSearchAPIView(generics.ListAPIView):
     def get_queryset(self):
         search = self.request.query_params.get('search')
         if search is not None:
+            # using full text search 
             vector = SearchVector('job_title')
             query = SearchQuery(search)
 
             queryset = Employee.objects.annotate(rank=SearchRank(vector,query)).order_by("-rank")
-            # queryset = Employee.objects.filter(first_name__search=search)
             return queryset
 
         queryset = Employee.objects.all()
